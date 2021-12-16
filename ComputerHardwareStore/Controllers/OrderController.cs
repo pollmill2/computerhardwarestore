@@ -4,10 +4,10 @@ using ComputerHardwareStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace ComputerHardwareStore.Controllers
 {
@@ -15,33 +15,36 @@ namespace ComputerHardwareStore.Controllers
     {
         private readonly ApplicationDbContext _applicationContext;
         private readonly ShoppingCart _shoppingCart;
+        private readonly IMapper _mapper;
 
-        public OrderController(ApplicationDbContext applicationContext, ShoppingCart shoppingCart)
+        public OrderController(ApplicationDbContext applicationContext, ShoppingCart shoppingCart, IMapper mapper)
         {
             _applicationContext = applicationContext;
             _shoppingCart = shoppingCart;
+            _mapper = mapper;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
-        }
+            var orders = _applicationContext.Orders.Include(c => c.CardItems)
+                .ThenInclude(s => s.Product)
+                .ToList();
 
-        public IActionResult OrderList()
-        {
-            return View(_applicationContext.Orders.Include(c => c.CardItems).ThenInclude(s => s.Product).ToList());
+            return View(orders);
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult AddOrder()
         {
-            var items = _shoppingCart.GetShoppingCartItems();
-            _shoppingCart.ShoppingCartItems = items;
-
+            var shoppingCart = new ShoppingCartViewModel()
+            {
+                ShoppingCart =  _mapper.Map<List<ShoppingCartItemViewModel>>(_shoppingCart.GetShoppingCartItems())
+            };
             var orderViewModel = new OrderViewModel()
             {
-                ShoppingCart = _shoppingCart
+                ShoppingCart = shoppingCart
             };
 
             return View(orderViewModel);
@@ -53,7 +56,7 @@ namespace ComputerHardwareStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var order = new Order()
+                var order = new Order
                 {
                     Address = model.Address,
                     Phone = model.Phone,
@@ -65,15 +68,12 @@ namespace ComputerHardwareStore.Controllers
                 _applicationContext.Add(order);
                 await _applicationContext.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Home"); ;
+                return RedirectToAction("Index", "Home");
             }
 
-            var items = _shoppingCart.GetShoppingCartItems();
-            _shoppingCart.ShoppingCartItems = items;
-
-            var orderViewModel = new OrderViewModel()
+            var orderViewModel = new OrderViewModel
             {
-                ShoppingCart = _shoppingCart
+                ShoppingCart = _mapper.Map<ShoppingCartViewModel>(_shoppingCart)
             };
 
             return View(orderViewModel);
@@ -84,19 +84,17 @@ namespace ComputerHardwareStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var items = _applicationContext.Orders.Include(e => e.CardItems).FirstOrDefault(x => x.Id == id);
+                var items = _applicationContext.Orders
+                    .Include(e => e.CardItems)
+                    .FirstOrDefault(x => x.Id == id);
+                
                 _applicationContext.RemoveRange(items.CardItems);
                 _applicationContext.Remove(items);
+                
                 await _applicationContext.SaveChangesAsync();
             }
 
-            return RedirectToAction("OrderList");
+            return RedirectToAction("Index");
         }
-
-        /*[Authorize(Roles = "admin")]
-        public IActionResult ListOrder()
-        {
-            return View();
-        }*/
     }
 }

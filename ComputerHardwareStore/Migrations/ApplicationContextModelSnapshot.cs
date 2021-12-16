@@ -130,7 +130,7 @@ namespace ComputerHardwareStore.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShoppingCardOtemIdd")
+                    b.Property<int>("ShoppingCardItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("ShoppingCartId")

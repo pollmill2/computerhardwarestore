@@ -1,3 +1,4 @@
+using AutoMapper;
 using ComputerHardwareStore.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using ComputerHardwareStore.Entities;
+using ComputerHardwareStore.Profiles;
 
 namespace ComputerHardwareStore
 {
@@ -31,6 +33,12 @@ namespace ComputerHardwareStore
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
+            
+            services.AddAutoMapper(cfg => cfg.AddProfiles(new Profile[]
+            {
+                new ConfigureAutomapperProfile(),
+            }));
+
 
             services.AddControllersWithViews();
             services.AddMemoryCache();

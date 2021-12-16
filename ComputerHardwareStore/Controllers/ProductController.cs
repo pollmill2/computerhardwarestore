@@ -19,16 +19,15 @@ namespace ComputerHardwareStore.Controllers
         {
             _applicationContext = applicationContext;
         }
+        
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var products = _applicationContext.Products.ToList();
+            return View(products);
         }
 
-        /*public IActionResult ProductList()
-        {
-            return View(_applicationContext.Products.ToList());
-        }
-
+        /*
         public IActionResult CategoryList()
         {
             return View(_applicationContext.Categories.ToList());

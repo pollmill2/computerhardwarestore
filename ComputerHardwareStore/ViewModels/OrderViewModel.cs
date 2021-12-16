@@ -17,6 +17,6 @@ namespace ComputerHardwareStore.ViewModels
         public string FName { get; set; }
         [Required]
         public string LName { get; set; }
-        public ShoppingCart ShoppingCart{ get; set; }
+        public ShoppingCartViewModel ShoppingCart { get; set; }
     }
 }

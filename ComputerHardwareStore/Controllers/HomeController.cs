@@ -20,16 +20,19 @@ namespace ComputerHardwareStore.Controllers
             _applicationContext = applicationContext;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_applicationContext.Products);
         }
 
+        [HttpGet("/Privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [HttpGet("/Error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
