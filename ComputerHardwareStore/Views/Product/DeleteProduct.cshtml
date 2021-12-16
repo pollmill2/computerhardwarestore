@@ -1,0 +1,35 @@
+﻿@model ComputerHardwareStore.ViewModels.AddProductViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+<div class="content-area">
+    <div class="container">
+        <div class="card col-md-3">
+            <form class="form-group" method="post" asp-controller="Product" asp-action="DeleteProduct">
+                <div class="container">
+                    <h1>Удаление товара</h1>
+                    <p>Убедитесь, что вы собираетесь удалить нужный товар (точнее не нужный... ну, всмысле, вы поняли).</p>
+                    <hr>
+                    @if (!(Model.Image is null))
+                    {<img class="img-product" src="@Model.Image" alt="img/product-2.jpg">}
+                    <hr>
+                    <p>@Model.ProductName</p>
+                    <p>@Model.Price</p>
+                    <p>@Model.Date<p>
+                    <p>@Model.Specification</p>
+                    <p>@ViewBag.CategoryName</p>
+
+                    <hr>
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                    <p>Удалить?</p>
+                    <input type="submit" asp-action="DeleteProduct" asp-controller="Product" asp-route-ready="@true" value="Удалить">
+                    <input type="submit" asp-action="DeleteProduct" asp-controller="Product" asp-route-ready="@false" value="Отмена">
+                    </>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="space"></div>

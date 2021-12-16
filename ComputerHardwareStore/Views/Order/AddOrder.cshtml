@@ -1,0 +1,66 @@
+﻿@model ComputerHardwareStore.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+
+<div class="content-area">
+    <div class="container">
+        <div class="card col-md-3">
+            <form class="form-group" method="post" asp-controller="Order" asp-action="AddOrder">
+                <div class="container">
+                    <h1>Оформление заказа</h1>
+                    <p>Заполните поля для оформления заказа</p>
+                    <hr>
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-green">
+                            <tr>
+                                <th>Товар</th>
+                                <th class="text-right" style="width: 20%">Цена</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+                            {
+                                <tr>
+                                    <td class="text-left">@line.Product.ProductName</td>
+                                    <td class="text-right">$@line.Product.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                    <div>
+                        <label class="control-label" asp-for="Address">Адрес</label>
+                        <input class="form-control" type="text" placeholder="Enter your address" name="Address" asp-for="Address">
+                        <span class="text-danger" asp-validation-for="Address"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="Phone">Телефонный номер</label>
+                        <input class="form-control" type="text" placeholder="Enter phone" name="Phone" id="Image" asp-for="Phone">
+                        <span class="text-danger" asp-validation-for="Phone"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="FName">Имя</label>
+                        <input class="form-control" placeholder="Enter you name" name="FName" id="Price" asp-for="FName">
+                        <span class="text-danger" asp-validation-for="FName"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="LName">Фамилия</label>
+                        <input class="form-control" type="text" placeholder="Enter your last name" name="LName" asp-for="LName">
+                        <span class="text-danger" asp-validation-for="LName"></span>
+                    </div>
+
+                    <input type="submit" class="addbtn" value="Оформить заказ" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="space"></div>

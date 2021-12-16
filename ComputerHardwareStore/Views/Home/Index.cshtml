@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ComputerHardwareStore.Entities.Product>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Магазин</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-area">
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-shop-product">
+                        <div class="product-upper">
+                            @if (!(product.Image is null))
+                            {<img class="img-product" src="@product.Image" alt="img/product-2.jpg">}
+                            else if (product.CategoryId == 1)
+                            { <img class="img-product" src="img/computerDefault.png" alt=""> }
+                            else if (product.CategoryId == 2)
+                            { <img class="img-product" src="img/notebookDefault.png" alt="">}
+                            else if (product.CategoryId == 3)
+                            { <img class="img-product" src="img/tabletDefault.png" alt="">}
+                        </div>
+                        @if (product.ProductName.Length > 35)
+                        {
+                            <h2 class="product-name">@product.ProductName.Substring(0, 32)...</h2>
+                        }
+                        else
+                        {
+                            <h2 class="product-name">@product.ProductName</h2>
+                        }
+                        <h1 class="product-spec">@product.Specification</h1>
+                        <div class="product-carousel-price">
+                            <ins>$@product.Price</ins> <!--<del>$999.00</del>!-->
+                        </div>
+
+                        <div class="product-option-shop">
+                            <a class="add_to_cart_button" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-id="@product.Id">AddToCart</a>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <a class="edtbtn" asp-controller="Product" asp-action="EditProduct" asp-route-id="@product.Id">
+                                    <img class="img-ico" src="img/edit.png" alt="">
+                                </a>
+                                <a class="rmvbtn" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@product.Id">
+                                    <img class="img-ico" src="img/delete.png" alt="">
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="space"></div>
+
+<!--
+<div class="row">
+    <div class="col-md-12">
+        <div class="product-pagination text-center">
+            <nav>
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>-->

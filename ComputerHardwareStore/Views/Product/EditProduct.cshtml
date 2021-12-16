@@ -1,0 +1,59 @@
+﻿@model ComputerHardwareStore.ViewModels.AddProductViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+
+<div class="content-area">
+    <div class="container">
+        <div class="card col-md-3">
+            <form class="form-group" method="post" asp-controller="Product" asp-action="EditProduct">
+                <div class="container">
+                    <h1>Изменение товара</h1>
+                    <p>Измените необходимые поля.</p>
+                    <hr>
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                    <div>
+                        <label class="control-label" asp-for="ProductName">Название продукта</label>
+                        <input class="form-control" type="text" placeholder="Enter book name" name="ProductName" asp-for="ProductName">
+                        <span class="text-danger" asp-validation-for="ProductName"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="Image">Ссылка на изображение</label>
+                        <input class="form-control" type="text" placeholder="Enter Image" name="Image" asp-for="Image">
+                        <span class="text-danger" asp-validation-for="Image"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="Price">Цена</label>
+                        <input class="form-control" placeholder="Enter Price" name="Price" asp-for="Price">
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="Date">Дата выпуска</label>
+                        <input class="form-control"  type="date" placeholder="Enter Date" name="Date" asp-for="Date">
+                        <span class="text-danger" asp-validation-for="Date"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="Specification">Характеристики</label>
+                        <input class="form-control"  type="text" placeholder="Enter Image" name="Specification" asp-for="Specification">
+                        <span class="text-danger" asp-validation-for="Specification"></span>
+                    </div>
+
+                    <div>
+                        <label class="control-label" asp-for="CategoryId">Категория</label>
+                        <select class="form-control" asp-for="CategoryId" asp-items="ViewBag.Categories"></select>
+                        <span class="text-danger" asp-validation-for="CategoryId"></span>
+                    </div>
+
+                    <input type="submit" class="addbtn" value="Изменить" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

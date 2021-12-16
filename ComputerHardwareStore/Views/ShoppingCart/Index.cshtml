@@ -1,0 +1,54 @@
+﻿@model ComputerHardwareStore.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "_Layout";
+}
+
+<div class="content-area">
+    <div class="container">
+        <div class="card col-md-3">
+            <form class="form-group" method="post" asp-controller="Order" asp-action="AddOrder">
+                <div class="container">
+                    <h2>Корзина</h2>
+                    @if (Model.ShoppingCart.ShoppingCartItems.Any())
+                    {
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-green">
+                                <tr>
+                                    <th>Товар</th>
+                                    <th class="text-right" style="width: 20%">Цена</th>
+                                    <th class="text-right" style="width: 0%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+                                {
+                                    <tr>
+                                        <td class="text-left">@line.Product.ProductName</td>
+                                        <td class="text-right">$@line.Product.Price</td>
+                                        <td class="text-center" style="width: 0%"><a class="delete_product_button" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-id="@line.Product.Id">Удалить</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="1" class="text-right">Итого:</td>
+                                    <td class="text-right">
+                                        $@Model.ShoppingCartTotal
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <a class="add_to_cart_button" asp-controller="Order" asp-action="AddOrder">Оформить заказ</a>
+                    }
+                    else
+                    {
+                        <p>Корзина пуста. Вы не добавили ни одного товара.</p>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="space"></div>
