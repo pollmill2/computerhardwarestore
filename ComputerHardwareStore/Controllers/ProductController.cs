@@ -24,7 +24,7 @@ namespace ComputerHardwareStore.Controllers
             return View();
         }
 
-        public IActionResult ProductList()
+        /*public IActionResult ProductList()
         {
             return View(_applicationContext.Products.ToList());
         }
@@ -32,7 +32,7 @@ namespace ComputerHardwareStore.Controllers
         public IActionResult CategoryList()
         {
             return View(_applicationContext.Categories.ToList());
-        }
+        }*/
 
         [Authorize(Roles = "admin")]
         [HttpGet]

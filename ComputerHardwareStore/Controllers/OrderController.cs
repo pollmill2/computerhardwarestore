@@ -93,10 +93,10 @@ namespace ComputerHardwareStore.Controllers
             return RedirectToAction("OrderList");
         }
 
-        [Authorize(Roles = "admin")]
+        /*[Authorize(Roles = "admin")]
         public IActionResult ListOrder()
         {
             return View();
-        }
+        }*/
     }
 }
