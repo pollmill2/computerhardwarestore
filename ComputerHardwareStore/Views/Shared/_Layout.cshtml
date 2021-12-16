@@ -48,7 +48,7 @@
                             @if (User.IsInRole("admin"))
                             {
                                 <li><a asp-controller="Product" asp-action="AddProduct">Добавить товар</a></li>
-                                <li><a asp-controller="Order" asp-action="OrderList">Просмотреть заказы</a></li>
+                                <li><a asp-controller="Order" asp-action="Index">Просмотреть заказы</a></li>
                             }
                             <li style="position: absolute; right: 20%">
                                 <p style="padding: 0px; display: inline-block">@User.Identity.Name</p>

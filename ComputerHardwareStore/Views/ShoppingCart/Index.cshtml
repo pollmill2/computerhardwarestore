@@ -11,7 +11,7 @@
             <form class="form-group" method="post" asp-controller="Order" asp-action="AddOrder">
                 <div class="container">
                     <h2>Корзина</h2>
-                    @if (Model.ShoppingCart.ShoppingCartItems.Any())
+                    @if (Model.ShoppingCart.Count != 0)
                     {
                         <table class="table table-bordered table-striped">
                             <thead class="thead-green">
@@ -22,7 +22,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+                                @foreach (var line in Model.ShoppingCart)
                                 {
                                     <tr>
                                         <td class="text-left">@line.Product.ProductName</td>

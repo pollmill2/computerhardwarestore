@@ -8,7 +8,7 @@ namespace ComputerHardwareStore.ViewModels
 {
     public class ShoppingCartViewModel
     {
-        public ShoppingCart ShoppingCart { get; set; }
-        public double ShoppingCartTotal { get; set; }
+        public List<ShoppingCartItemViewModel> ShoppingCart { get; set; }
+        public double ShoppingCartTotal => ShoppingCart.Sum(x => x.Product.Price);
     }
 }

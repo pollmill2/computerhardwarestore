@@ -1,5 +1,45 @@
 ﻿@model IEnumerable<ComputerHardwareStore.Entities.Order>
-
 @{
-    Layout = null;
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
+
+<div class="content-area">
+    <div class="container">
+        <div class="card col-md-3">
+            <form class="form-group">
+                <div class="container">
+                    <h1>Список заказов</h1>
+                    <p>Вы можете просматривать и удалять заказы.</p>
+                    <hr>
+                    @foreach (var order in Model)
+                    {
+                        <p>@order.FName</p>
+                        <p>@order.LName</p>
+                        <p>@order.Address</p>
+                        <p>@order.Phone</p>
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-green">
+                            <tr>
+                                <th>Товар</th>
+                                <th class="text-right" style="width: 20%">Цена</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var line in order.CardItems)
+                            {
+                                <tr>
+                                    <td class="text-left">@line.Product.ProductName</td>
+                                    <td class="text-right">$@line.Product.Price</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <a class="delete_product_button" asp-controller="Order" asp-action="DeleteOrder" asp-route-id="@order.Id">Удалить</a>
+                        <hr>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

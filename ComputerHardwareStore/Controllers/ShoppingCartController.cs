@@ -1,11 +1,9 @@
 ﻿using ComputerHardwareStore.Models;
 using ComputerHardwareStore.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using ComputerHardwareStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
@@ -16,23 +14,22 @@ namespace ComputerHardwareStore.Controllers
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly ShoppingCart _shoppingCart;
+        private readonly IMapper _mapper;
 
-        public ShoppingCartController(ApplicationDbContext applicationDbContext, ShoppingCart shoppingCart)
+        public ShoppingCartController(ApplicationDbContext applicationDbContext, ShoppingCart shoppingCart, IMapper mapper)
         {
             _applicationDbContext = applicationDbContext;
             _shoppingCart = shoppingCart;
+            _mapper = mapper;
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
-            var items = _shoppingCart.GetShoppingCartItems();
-            _shoppingCart.ShoppingCartItems = items;
-
             var sCVM = new ShoppingCartViewModel
             {
-                ShoppingCart = _shoppingCart,
-                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
+                ShoppingCart = _mapper.Map<List<ShoppingCartItemViewModel>>(_shoppingCart.GetShoppingCartItems())
             };
             return View(sCVM);
         }
