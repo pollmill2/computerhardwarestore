@@ -5,10 +5,11 @@ using Xunit;
 
 namespace ComputerHardwareStore.Tests.IntegrationTests.Get
 {
-    public class GetForAllTests : BaseTests
+    public class GetForAllTests : IntegrationTestFixture
     {
         [Theory]
         [InlineData("/")]
+        [InlineData("/Home/Index")]
         [InlineData("/Privacy")]
         [InlineData("/Error")]
         [InlineData("/Product/Index")]
@@ -30,8 +31,11 @@ namespace ComputerHardwareStore.Tests.IntegrationTests.Get
             response.EnsureSuccessStatusCode();
             Assert.Equal("text/html; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
+
         [Theory]
-        [InlineData("/some")]
+        [InlineData("/Some")]
+        [InlineData("/Index")]
+        [InlineData("/Home/Privacy")]
         public async Task Get_EndpointsReturnErrorAndNotFoundContentType(string url)
         {
             // Arrange

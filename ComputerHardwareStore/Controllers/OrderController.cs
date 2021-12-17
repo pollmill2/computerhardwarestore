@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using System;
 
 namespace ComputerHardwareStore.Controllers
 {
@@ -71,9 +72,13 @@ namespace ComputerHardwareStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var orderViewModel = new OrderViewModel
+            var shoppingCart = new ShoppingCartViewModel()
             {
-                ShoppingCart = _mapper.Map<ShoppingCartViewModel>(_shoppingCart)
+                ShoppingCart = _mapper.Map<List<ShoppingCartItemViewModel>>(_shoppingCart.GetShoppingCartItems())
+            };
+            var orderViewModel = new OrderViewModel()
+            {
+                ShoppingCart = shoppingCart
             };
 
             return View(orderViewModel);

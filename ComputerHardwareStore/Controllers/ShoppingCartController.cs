@@ -24,7 +24,6 @@ namespace ComputerHardwareStore.Controllers
         }
 
         [Authorize]
-        [HttpGet]
         public IActionResult Index()
         {
             var sCVM = new ShoppingCartViewModel
