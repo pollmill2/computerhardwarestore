@@ -52,13 +52,13 @@ namespace ComputerHardwareStore.Tests.UnitTests.Unit
         }
 
         [Theory]
-        [InlineData(4, true)]
-        public async Task DeleteProdcutPost_ReturnsANotFoundResult(int id, bool ready)
+        [InlineData(4)]
+        public async Task DeleteProdcutPost_ReturnsANotFoundResult(int id)
         {
             var controller = new ProductController(Context);
 
             // Act
-            var result = await controller.DeleteProduct(id, ready);
+            var result = await controller.DeleteProduct(id, true);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -83,6 +83,19 @@ namespace ComputerHardwareStore.Tests.UnitTests.Unit
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectToActionResult.ActionName);
+        }
+
+        [Theory]
+        [InlineData(3)]
+        public async Task DeleteProdcutPost_ReturnsAViewResult(int id)
+        {
+            var controller = new ProductController(Context);
+
+            // Act
+            var result = await controller.DeleteProduct(id, true);
+
+            // Assert
+            Assert.IsType<ViewResult>(result);
         }
     }
 }
