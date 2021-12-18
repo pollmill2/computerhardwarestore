@@ -45,6 +45,7 @@ namespace ComputerHardwareStore.Controllers
             return RedirectToAction("Index");
         }
 
+
         [Authorize]
         public RedirectToActionResult RemoveFromShoppingCart(int id)
         {
