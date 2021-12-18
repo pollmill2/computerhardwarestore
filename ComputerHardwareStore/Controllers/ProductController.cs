@@ -151,6 +151,11 @@ namespace ComputerHardwareStore.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!_applicationContext.Products.Any(x => x.Id == id))
+                {
+                    return NotFound();
+                }
+
                 if (ready)
                 {
                     var items = _applicationContext.ShoppingCartItems.Include(e => e.Product);
@@ -174,6 +179,7 @@ namespace ComputerHardwareStore.Controllers
                             Date = product.Date,
                             Specification = product.Specification
                         };
+
                         ViewBag.CategoryName = product.Category.CategoryName;
                         ModelState.AddModelError("", "Нельзя удалить товар, который находится в одном из заказов.");
                         return View(addProductViewModel);

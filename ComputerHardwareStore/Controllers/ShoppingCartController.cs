@@ -24,7 +24,6 @@ namespace ComputerHardwareStore.Controllers
         }
 
         [Authorize]
-        [HttpGet]
         public IActionResult Index()
         {
             var sCVM = new ShoppingCartViewModel
@@ -45,6 +44,7 @@ namespace ComputerHardwareStore.Controllers
 
             return RedirectToAction("Index");
         }
+
 
         [Authorize]
         public RedirectToActionResult RemoveFromShoppingCart(int id)

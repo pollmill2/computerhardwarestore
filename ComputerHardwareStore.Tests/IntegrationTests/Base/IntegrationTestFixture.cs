@@ -6,11 +6,11 @@ using Xunit;
 
 namespace ComputerHardwareStore.Tests.IntegrationTests.Base
 {
-    public class BaseTests : IClassFixture<WebApplicationFactory<Startup>>, IDisposable, IAsyncDisposable
+    public class IntegrationTestFixture : IClassFixture<WebApplicationFactory<Startup>>, IDisposable, IAsyncDisposable
     {
         protected readonly WebApplicationFactory<Startup> Factory;
 
-        public BaseTests()
+        public IntegrationTestFixture()
         {
             Factory = new WebApplicationFactory<Startup>();
         }
