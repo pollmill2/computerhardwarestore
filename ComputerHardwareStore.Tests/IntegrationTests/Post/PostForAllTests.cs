@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,27 @@ namespace ComputerHardwareStore.Tests.IntegrationTests.Post
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal("text/html; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        }
+
+        [Theory]
+        [InlineData("/Some")]
+        public async Task Post_EndpointsReturnErrorAndNotFoundContentType(string url)
+        {
+            // Arrange
+            var client = Factory.CreateClient();
+
+            // Act
+            var model = new OrderViewModel()
+            {
+
+            };
+            var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync(url, stringContent);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Null(response.Content.Headers.ContentType);
         }
     }
 }
