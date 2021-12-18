@@ -1,7 +1,9 @@
-﻿using ComputerHardwareStore.Entities;
+﻿using AutoMapper;
+using ComputerHardwareStore.Entities;
 using ComputerHardwareStore.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,23 +15,26 @@ namespace ComputerHardwareStore.Tests.UnitTests.Base
 {
     public class UnitTestFixture : IDisposable
     {
-        protected DbContextOptions<ApplicationDbContext> Option;
-        protected ApplicationDbContext Context;
+        protected DbContextOptions<ApplicationDbContext> optoins;
+        protected ApplicationDbContext context;
+        protected Mock<IMapper> mappingService;
 
         public UnitTestFixture()
         {
 
-            Option = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("TestMemoryDb").Options;
+            optoins = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
 
-            Context = new ApplicationDbContext(Option);
+            context = new ApplicationDbContext(optoins);
+
+            mappingService = new Mock<IMapper>();
 
             var category = new Category
             {
                 Id = 1,
                 CategoryName = "Ноутбуки"
             };
-            Context.Add(category);
+            context.Add(category);
 
             var product = new Product
             {
@@ -38,11 +43,11 @@ namespace ComputerHardwareStore.Tests.UnitTests.Base
                 Date = DateTime.Now,
                 Image = "",
                 Rating = 0,
-                Price = 10,
+                Price = 100,
                 Specification = "8Gb RAM",
                 CategoryId = 1,
             };
-            Context.Add(product);
+            context.Add(product);
 
             var order = new Order
             {
@@ -68,20 +73,22 @@ namespace ComputerHardwareStore.Tests.UnitTests.Base
                         }
                     }
             };
-            Context.Add(order);
+            context.Add(order);
 
-            Context.SaveChanges();
+            context.SaveChanges();
         }
 
         public void Dispose()
         {
-            Context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
+            GC.SuppressFinalize(this);
         }
 
         public async ValueTask DisposeAsync()
         {
             await Task.Run(() =>
             {
+                context.Database.EnsureDeleted();
                 return Task.FromResult(true);
             });
         }
