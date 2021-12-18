@@ -24,6 +24,26 @@ namespace ComputerHardwareStore.Tests.UnitTests.Base
 
             Context = new ApplicationDbContext(Option);
 
+            var category = new Category
+            {
+                Id = 1,
+                CategoryName = "Ноутбуки"
+            };
+            Context.Add(category);
+
+            var product = new Product
+            {
+                Id = 2,
+                ProductName = "WithoutOrder",
+                Date = DateTime.Now,
+                Image = "",
+                Rating = 0,
+                Price = 10,
+                Specification = "8Gb RAM",
+                CategoryId = 1,
+            };
+            Context.Add(product);
+
             var order = new Order
             {
                 Address = "Some address",
@@ -37,7 +57,7 @@ namespace ComputerHardwareStore.Tests.UnitTests.Base
                         {
                             Product = new Product {
                                 Id = 3,
-                                ProductName = "Name",
+                                ProductName = "InOrder",
                                 Date = DateTime.Now,
                                 Image = "",
                                 Rating = 0,
@@ -48,8 +68,8 @@ namespace ComputerHardwareStore.Tests.UnitTests.Base
                         }
                     }
             };
-
             Context.Add(order);
+
             Context.SaveChanges();
         }
 

@@ -65,8 +65,9 @@ namespace ComputerHardwareStore.Tests.UnitTests.Unit
         }
 
         [Theory]
-        [InlineData(3, false, true)]
-        [InlineData(3, true, false)]
+        [InlineData(2, false, true)]
+        [InlineData(2, true, false)]
+        [InlineData(2, true, true)]
         public async Task DeleteProdcutPost_ReturnsARedirectToActionResult(int id, bool ready, bool modelIsValid)
         {
             var controller = new ProductController(Context);
