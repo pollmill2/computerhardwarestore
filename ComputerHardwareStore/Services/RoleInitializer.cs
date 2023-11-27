@@ -8,7 +8,7 @@ namespace ComputerHardwareStore.Service
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string adminEmail = "FhBeast";
+            string adminEmail = "pollmill";
             string password = "12345678";
             if (await roleManager.FindByNameAsync("admin") == null)
             {
